@@ -7,6 +7,7 @@
 #
 # short
 # - filter 1st column from csv
+#     cut -d ',' -f1
 #
 
 current=$(cd ./post ; md5sum ./*.txt | sed -r 's/(.*) (.*)/\2,\1/g' | sort)
