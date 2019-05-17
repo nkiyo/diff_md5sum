@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# TODO
+# make function
+# - md5sum to csv
+# - print variable to csv
+#
+# short
+# - filter 1st column from csv
+#
+
 current=$(cd ./post ; md5sum ./*.txt | sed -r 's/(.*) (.*)/\2,\1/g' | sort)
 prev=$(cd ./pre ; md5sum ./*.txt | sed -r 's/(.*) (.*)/\2,\1/g' | sort)
 
@@ -14,6 +23,7 @@ diff_files=$(comm -3 <(echo "$prev") <(echo "$current") | sed -r 's/^\t//g' | se
 modified=$(echo "$diff_files"$'\n'"$deleted"$'\n'"$created" | sort | uniq -u)
 
 # Change summary to file
+rm -f changes.csv
 for line in $modified; do
   echo $line",modified" >> changes.csv
 done
