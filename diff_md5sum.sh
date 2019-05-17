@@ -13,7 +13,7 @@ created=$(comm -13 <(echo "$prev" | sed -r 's/(.*),(.*)/\1/g') <(echo "$current"
 diff_files=$(comm -3 <(echo "$prev") <(echo "$current") | sed -r 's/^\t//g' | sed -r 's/(.*),(.*)/\1/g' | sort | uniq)
 modified=$(echo "$diff_files"$'\n'"$deleted"$'\n'"$created" | sort | uniq -u)
 
-# Diff summary to file
+# Change summary to file
 for line in $modified; do
   echo $line",modified" >> changes.csv
 done
@@ -25,6 +25,6 @@ for line in $deleted; do
 done
 
 # Create md5sum.csv for next boot
-# TODO new line delimiter
-echo $current > md5sum.csv
+rm -f md5sum.csv
+echo $current | tr " " "\n" >> md5sum.csv
 
